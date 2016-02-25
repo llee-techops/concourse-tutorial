@@ -1,0 +1,37 @@
+---
+jobs:
+- name: job-test-deploy-app
+  public: true
+  serial: true
+  plan:
+  - aggregate:
+    - get: resource-web-app
+  - aggregate:
+    - task: golang-test-web-app
+      config:
+        platform: linux
+        image: docker:///golang#1.4.2
+        inputs:
+          - name: resource-web-app
+        run:
+          path: ./resource-web-app/test
+  - aggregate:
+    - put: resource-deploy-web-app
+      params:
+        manifest: resource-web-app/manifest.yml
+        path: resource-web-app
+
+resources:
+- name: resource-web-app
+  type: git
+  source:
+    uri: https://github.com/cloudfoundry-community/simple-go-web-app.git
+
+- name: resource-deploy-web-app
+  type: cf
+  source:
+    api: {{cf-api}}
+    username: {{cf-username}}
+    password: {{cf-password}}
+    organization: {{cf-organization}}
+    space: {{cf-space}}

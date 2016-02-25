@@ -1,0 +1,5 @@
+platform: linux
+image: docker:///ubuntu#14.04
+run:
+  path: uname
+  args: [-a]
