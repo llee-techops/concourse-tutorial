@@ -11,4 +11,4 @@ resources:
 - name: resource-tutorial
   type: git
   source:
-    uri: https://github.com/starkandwayne/concourse-tutorial.git
+    uri: https://github.com/llee-techops/concourse-tutorial.git
